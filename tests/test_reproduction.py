@@ -14,7 +14,7 @@ from rgbd_sceneflow.archive import DATA_ROOT, iter_cases
 from rgbd_sceneflow.metrics import APPROX_KEYS, compare, evaluate
 
 pytestmark = pytest.mark.skipif(
-    not DATA_ROOT.is_dir(), reason="data/v03 が無い（`just extract` で復元してください）"
+    not DATA_ROOT.is_dir(), reason="data が無い（`just extract` で復元してください）"
 )
 
 CORE_METRICS = {

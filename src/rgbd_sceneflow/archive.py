@@ -1,13 +1,13 @@
-"""配布アーカイブ（data/v03/）の読み込みと索引。
+"""配布アーカイブ（data/）の読み込みと索引。
 
 アーカイブ内のディレクトリ構造をそのままの意味で扱う。
 
-    data/v03/
+    data/
       <split>/<case>/data.npz         入力（灰度・深度・観測フロー・正解）
-      data/v03/<split>/<case>/<method>.npz   手法ごとの推定出力
-      data/v03/<split>/<case>/<method>.json  手法ごとの凍結メトリクス
-      data/v03/<split>/<case>/metadata.json  生成条件（真値・入力ハッシュ）
-      data/v03/*.csv, *.json                 集計と監査記録
+      data/<split>/<case>/<method>.npz   手法ごとの推定出力
+      data/<split>/<case>/<method>.json  手法ごとの凍結メトリクス
+      data/<split>/<case>/metadata.json  生成条件（真値・入力ハッシュ）
+      data/*.csv, *.json                 集計と監査記録
 """
 
 from __future__ import annotations
@@ -23,7 +23,7 @@ import numpy as np
 #: リポジトリ直下（`src/rgbd_sceneflow/archive.py` から2つ上）。
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 #: 配布アーカイブを展開した場所。
-DATA_ROOT = PROJECT_ROOT / "data" / "v03"
+DATA_ROOT = PROJECT_ROOT / "data"
 #: 図の出力先。
 FIGURES_DIR = PROJECT_ROOT / "figures"
 #: 報告書の出力先。

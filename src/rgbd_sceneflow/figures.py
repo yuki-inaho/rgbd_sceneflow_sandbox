@@ -23,7 +23,7 @@ import numpy as np
 from matplotlib.figure import Figure
 
 from .archive import DATA_ROOT, FIGURES_DIR, Case, iter_cases
-from .metrics import common_visible_set, epe_mm
+from .metrics import OBJECT_LABEL_MIN, common_visible_set, epe_mm
 
 # 日本語ラベルを描画できるフォントを優先する（無い環境では DejaVu にフォールバック）。
 matplotlib.rcParams["font.family"] = [
@@ -151,6 +151,95 @@ def figure_speed_accuracy(case: Case, path: Path | None = None) -> Figure:
     return _finish(fig, path)
 
 
+#: 3D ビューで矢印の長さに掛ける倍率（見やすさのため）。
+ARROW_SCALE = 5.0
+#: 3D ビューの点群・矢印の間引き間隔 [画素]。
+CLOUD_STRIDE = 2
+ARROW_STRIDE = 8
+#: 3D ビューの比較対象（ラベル, 手法名）。手法名 None は正解。
+DEFAULT_3D_VARIANTS = (("正解", None), ("前版", "v02"), ("補正版", "standard"))
+
+
+def figure_scene_flow_3d(
+    case: Case,
+    variants: tuple[tuple[str, str | None], ...] = DEFAULT_3D_VARIANTS,
+    path: Path | None = None,
+) -> Figure:
+    """点群とシーンフローを 3D で並べる。
+
+    視点・表示範囲・間引き・矢印倍率を全パネルで揃え、動体だけを描く。
+    座標は (x, z, -y) で、奥行き +z が画面の奥、-y が画面の上になる。
+    """
+    inputs = case.inputs()
+    depth = inputs["depth0"]
+    height, width = depth.shape
+    yy, xx = np.mgrid[0:height, 0:width]
+    fx, fy, cx, cy = inputs["intrinsics"]
+    rays = np.stack(((xx - cx) / fx, (yy - cy) / fy, np.ones_like(xx)), axis=-1)
+    xyz = depth[..., None] * rays
+
+    moving = inputs["gt_labels0"] >= OBJECT_LABEL_MIN
+    finite = np.isfinite(depth)
+    cloud = moving & finite & (xx % CLOUD_STRIDE == 0) & (yy % CLOUD_STRIDE == 0)
+    arrows = moving & finite & (xx % ARROW_STRIDE == 0) & (yy % ARROW_STRIDE == 0)
+    points = xyz[cloud]
+
+    norm = matplotlib.colors.Normalize(vmin=0.5, vmax=2.0, clip=True)
+    cmap = plt.get_cmap("turbo")
+    gt = inputs["gt_scene_flow"]
+
+    fig = plt.figure(figsize=(4.9 * len(variants), 4.9), constrained_layout=True)
+    for index, (label, method) in enumerate(variants, start=1):
+        scene = gt if method is None else case.result(method)["scene_flow"]
+        ax = fig.add_subplot(1, len(variants), index, projection="3d")
+        ax.scatter(
+            points[:, 0],
+            points[:, 2],
+            -points[:, 1],
+            c=depth[cloud],
+            cmap=cmap,
+            norm=norm,
+            s=4.5,
+            linewidths=0,
+        )
+        ax.quiver(
+            xyz[arrows, 0],
+            xyz[arrows, 2],
+            -xyz[arrows, 1],
+            scene[arrows, 0] * ARROW_SCALE,
+            scene[arrows, 2] * ARROW_SCALE,
+            -scene[arrows, 1] * ARROW_SCALE,
+            color="#c0392b" if method else "#111111",
+            linewidth=0.8,
+            alpha=0.9,
+            arrow_length_ratio=0.3,
+        )
+        error = float(np.linalg.norm(scene - gt, axis=-1)[moving & finite].mean() * 1000.0)
+        ax.set_title(f"{label}：動体 EPE {error:.2f} mm", fontsize=10)
+        ax.set_xlabel("x [m]", fontsize=8)
+        ax.set_ylabel("z [m]（奥行）", fontsize=8)
+        ax.set_zlabel("-y [m]（上）", fontsize=8)
+        ax.tick_params(labelsize=7)
+        ax.view_init(elev=18, azim=-72)
+        ax.set_xlim(points[:, 0].min(), points[:, 0].max())
+        ax.set_ylim(points[:, 2].min(), points[:, 2].max())
+        ax.set_zlim(-points[:, 1].max(), -points[:, 1].min())
+
+    fig.colorbar(
+        plt.cm.ScalarMappable(norm=norm, cmap=cmap),
+        ax=fig.axes,
+        orientation="horizontal",
+        fraction=0.045,
+        pad=0.04,
+        label="観測深度 [m]（点群の色）",
+    )
+    fig.suptitle(
+        f"{case.key}：動体の点群と 3 次元変位（矢印は ×{ARROW_SCALE:.0f}、{ARROW_STRIDE} 画素ごと）",
+        fontsize=11,
+    )
+    return _finish(fig, path)
+
+
 def ablation_case(data_root: Path = DATA_ROOT) -> Case | None:
     for case in iter_cases(data_root):
         if case.split == "ablation":
@@ -177,6 +266,11 @@ def main() -> int:
     if case is not None:
         written.append(args.out / "speed_accuracy.png")
         figure_speed_accuracy(case, written[-1])
+
+    view3d = next((c for c in heldout if c.key.endswith("gallery_scene101")), None)
+    if view3d is not None:
+        written.append(args.out / "scene_flow_3d.png")
+        figure_scene_flow_3d(view3d, DEFAULT_3D_VARIANTS, written[-1])
 
     for path in written:
         print(f"wrote {path} ({path.stat().st_size // 1024} KiB)")

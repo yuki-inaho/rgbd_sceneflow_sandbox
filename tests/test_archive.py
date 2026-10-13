@@ -15,7 +15,7 @@ from rgbd_sceneflow.archive import (
 )
 
 pytestmark = pytest.mark.skipif(
-    not DATA_ROOT.is_dir(), reason="data/v03 が無い（`just extract` で復元してください）"
+    not DATA_ROOT.is_dir(), reason="data が無い（`just extract` で復元してください）"
 )
 
 EXPECTED_INPUT_KEYS = {

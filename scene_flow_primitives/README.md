@@ -72,11 +72,11 @@ print("Observation-derived rigid components:", result["stats"]["rigid_accepted"]
 ## 固定条件の比較実験
 
 ```bash
-uv run python scripts/report_v03.py --results ../data/v03
-uv run python scripts/verify_v03.py --case ../data/v03/retest/gallery_dis_seed11 --method standard
+uv run python scripts/report_v03.py --results ../data
+uv run python scripts/verify_v03.py --case ../data/retest/gallery_dis_seed11 --method standard
 ```
 
-保存済みの比較結果はリポジトリ直下の `../data/v03/` にあります
+保存済みの比較結果はリポジトリ直下の `../data/` にあります
 （再試験6入力、新規条件6入力、19構成のアブレーション、8種類のストレス条件）。
 `verify_v03.py` は保存済み入力で推定をやり直し、保存配列と突き合わせます。
 全ての推定を直列・単一論理CPUへ固定して測定します。GPUや並列処理による高速化ではありません。
@@ -123,7 +123,7 @@ uv run python scripts/verify_v03.py --case ../data/v03/retest/gallery_dis_seed11
 ## 理論文書と保存結果
 
 ```bash
-uv run python scripts/report_v03.py --results ../data/v03
+uv run python scripts/report_v03.py --results ../data
 cd ../docs
 lualatex -interaction=nonstopmode -halt-on-error theory_ja.tex
 lualatex -interaction=nonstopmode -halt-on-error theory_ja.tex
@@ -131,7 +131,7 @@ lualatex -interaction=nonstopmode -halt-on-error theory_ja.tex
 
 LuaLaTeX、日本語用のNoto CJKフォント、DejaVuフォントが必要です。フォントは同梱しません。
 LaTeX本文、数値表、参照した図はリポジトリ直下の `../docs/` にあります。
-保存結果 `../data/v03/` には入力・正解・推定NPZ、設定・入力SHA-256・時間・領域別JSON、
+保存結果 `../data/` には入力・正解・推定NPZ、設定・入力SHA-256・時間・領域別JSON、
 CSV、数値検査を含めています。
 
 旧評価関数で `max_estimated_motion_mm` にメートル値が保存されていた不備も修正し、
@@ -147,6 +147,6 @@ scripts/                   集計と再計算の検証
 tests/                     数式・核・境界・単位・生成器の試験
 ```
 
-理論書（`../docs/`）と保存結果（`../data/v03/`）はリポジトリ直下に置いています。
+理論書（`../docs/`）と保存結果（`../data/`）はリポジトリ直下に置いています。
 
 MIT License。外部ライブラリと参照論文には、それぞれの利用条件が適用されます。

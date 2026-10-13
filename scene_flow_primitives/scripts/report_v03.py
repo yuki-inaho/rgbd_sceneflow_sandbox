@@ -22,7 +22,7 @@ from scene_flow_refinement import Config
 from scene_flow_refinement.metrics import project_flow
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT.parent / 'data/v03'
+OUT = ROOT.parent / 'data'
 DOC = ROOT.parent / 'docs'
 FIG = DOC / 'figures'
 ORDER = ['v02','standard','no_rigid','quadratic_geometry','no_rigid_quadratic',

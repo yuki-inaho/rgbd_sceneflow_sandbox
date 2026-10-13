@@ -13,7 +13,7 @@ from rgbd_sceneflow import figures
 from rgbd_sceneflow.archive import DATA_ROOT, iter_cases
 
 pytestmark = pytest.mark.skipif(
-    not DATA_ROOT.is_dir(), reason="data/v03 が無い（`just extract` で復元してください）"
+    not DATA_ROOT.is_dir(), reason="data が無い（`just extract` で復元してください）"
 )
 
 
@@ -36,4 +36,13 @@ def test_speed_accuracy_figure_uses_stored_timings(tmp_path):
     assert case is not None
     path = tmp_path / "speed.png"
     plt.close(figures.figure_speed_accuracy(case, path))
+    assert path.stat().st_size > 0
+
+
+def test_scene_flow_3d_figure_is_written(tmp_path):
+    case = next(c for c in iter_cases() if c.key == "heldout/gallery_scene101")
+    path = tmp_path / "scene_flow_3d.png"
+    figure = figures.figure_scene_flow_3d(case, path=path)
+    assert len(figure.axes) == len(figures.DEFAULT_3D_VARIANTS) + 1  # パネル + 色バー
+    plt.close(figure)
     assert path.stat().st_size > 0
