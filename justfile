@@ -60,6 +60,18 @@ figures:
 tables:
     uv run python -m rgbd_sceneflow.tables
 
+# README に載せる画像を docs/assets/ にそろえる
+assets:
+    #!/usr/bin/env bash
+    set -eu
+    uv run python -m rgbd_sceneflow.figures
+    mkdir -p docs/assets
+    cp -f figures/ground_truth.png figures/optical_flow_styles.png \
+          figures/scene_flow_styles.png figures/scene_flow_3d.png \
+          figures/scene_flow_3d_views.png figures/error_maps.png \
+          figures/paired_errors.png figures/speed_accuracy.png docs/assets/
+    du -sh docs/assets
+
 notebook:
     uv run jupyter nbconvert --to notebook --execute --inplace \
         --ExecutePreprocessor.timeout=1800 notebooks/01_scene_flow_v03_reproduction.ipynb

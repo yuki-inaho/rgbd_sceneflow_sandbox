@@ -6,26 +6,60 @@
 
 ```
 data/                  配布された保存結果（Git 追跡外、`just extract` で復元）
-docs/                  理論書（LaTeX と PDF）・表・図
+docs/                  理論書（LaTeX と PDF）・表・図・README 用の画像
 scene_flow_primitives/ 配布された実装（C++17 コア・Python ラッパ・試験）
 src/rgbd_sceneflow/    検証ラボ（保存配列からの再計算・突合・作図）
-tests/                 24 件（うち 3 件は配布実装との突き合わせ）
-notebooks/             実行済み Notebook（画像を埋め込み）
+tests/                 30 件（うち 3 件は配布実装との突き合わせ）
+notebooks/             実行済み Notebook（14 節・画像 10 枚を埋め込み）
 ```
 
 ## 使い方
 
 ```bash
-just extract && uv sync && uv run pytest   # 展開 → 環境 → 24 passed
+just extract && uv sync && uv run pytest   # 展開 → 環境 → 30 passed
 
 just reproduce   # 保存結果 70 組を再計算し、凍結メトリクスと突合
 just tables      # 集計表の再構成         just figures  # 図の再構成
 just notebook    # Notebook を実行        just docs     # 理論書を PDF にビルド
+just assets      # README 用の画像を docs/assets/ にそろえる
 
 just build           # 配布実装をビルド
 just upstream-test   # 配布実装の自動試験（93 passed）
 just verify-upstream # 保存済み推定 1 件を再計算し、配列の一致を確認
 ```
+
+## 可視化
+
+保存配列だけから描いた図です（`just assets` が `figures/` の出力を `docs/assets/` へ複製）。
+Notebook では同じ図をセル内に埋め込んでいます。
+
+**入力と正解** — 画像対・真値の光流（Middlebury 色相環）・真値の変位（XYZ→RGB）・可視性・動体。
+
+![入力と正解](docs/assets/ground_truth.png)
+
+**光流の可視化** — 観測と推定を同じ色相環・同じ最大値で並べ、矢印と色相環の読み方も添えます。
+
+![光流の可視化](docs/assets/optical_flow_styles.png)
+
+**3 次元変位（XYZ→RGB と大きさ）** — 赤=x、緑=y、青=z。0 は中間色で、正負が明暗になります。
+
+![3次元変位の可視化](docs/assets/scene_flow_styles.png)
+
+**3D ビュー** — 動体の点群（観測深度で着色）と変位ベクトル。左から正解・前版・補正版。
+
+![3Dビュー](docs/assets/scene_flow_3d.png)
+
+**3D ビュー（4 視点）** — 同じ推定を角度を変えて確認します（ビューアの代わり）。
+
+![3Dビューの多視点](docs/assets/scene_flow_3d_views.png)
+
+**誤差** — 入力ごとの端点誤差マップ（20 mm で飽和）と、前版・補正版の対比。
+
+![誤差マップ](docs/assets/error_maps.png)
+
+![端点誤差の対比](docs/assets/paired_errors.png)
+
+![速度と精度](docs/assets/speed_accuracy.png)
 
 ## 再現の結果
 
