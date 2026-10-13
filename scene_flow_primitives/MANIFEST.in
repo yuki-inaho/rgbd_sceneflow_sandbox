@@ -1,0 +1,5 @@
+recursive-include cpp *.hpp *.cpp
+include CMakeLists.txt
+recursive-include tests *.py
+recursive-include scripts *.py
+include requirements-verified.txt

@@ -1,0 +1,16 @@
+\begin{table}[H]\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\caption{主比較。6入力を等重みで集計した平均と標本標準偏差。各入力は160×120。}
+\begin{tabular}{llrrrr}
+\toprule
+区分 & 手法 & $n$ & 共通可視 [mm] & 動体 [mm] & C++時間 [s]\\\midrule
+再試験 & 第0.2版 & 6 & 2.958 $\pm$ 0.401 & 2.025 $\pm$ 0.394 & 34.32 $\pm$ 0.76\\
+再試験 & 標準版 & 6 & 0.852 $\pm$ 0.066 & 0.881 $\pm$ 0.104 & 9.76 $\pm$ 0.16\\
+新規条件 & 第0.2版 & 6 & 2.804 $\pm$ 0.260 & 1.799 $\pm$ 0.452 & 34.95 $\pm$ 0.47\\
+新規条件 & 標準版 & 6 & 0.991 $\pm$ 0.476 & 0.823 $\pm$ 0.113 & 9.89 $\pm$ 0.10\\
+\bottomrule
+\end{tabular}
+\end{table}
+新規条件の配置別の内訳は次のとおりです。
+\input{table_layouts.tex}

@@ -1,0 +1,19 @@
+# 大きな配布アーカイブの中身（`just extract` で復元）
+/data/
+# 生成物
+/figures/
+/outputs/
+/temp/
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+# LaTeX の中間ファイル
+docs/*.aux
+docs/*.log
+docs/*.out
+docs/*.toc
+docs/*.synctex.gz

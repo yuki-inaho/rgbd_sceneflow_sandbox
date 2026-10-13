@@ -1,0 +1,57 @@
+\begingroup\small
+\setlength{\tabcolsep}{4pt}
+\begin{longtable}{lll}
+\caption{標準Configの全46項目。数値配列の並びもこの順序です。}\\
+\toprule
+設定 & 値 & 意味\\\midrule\endfirsthead
+\toprule
+設定 & 値 & 意味\\\midrule\endhead
+\bottomrule\endfoot
+\code{scale} & 0.01 & 長さの無次元化尺度 [m]\\
+\code{sigma_depth} & 0.003 & 深度の公称誤差 [m]\\
+\code{sigma_flow} & 0.7 & フロー誤差 [画素]\\
+\code{sigma_image} & 0.025 & 灰度残差尺度\\
+\code{sigma_geometry} & 0.0008 & 幾何残差尺度 [m]\\
+\code{max_motion} & 0.05 & 移動距離の上限 [m]\\
+\code{trust_sigma} & 4.0 & 深度補正幅の倍率\\
+\code{min_depth} & 0.1 & 最小深度 [m]\\
+\code{max_depth} & 5.0 & 最大深度 [m]\\
+\code{edge_threshold} & 0.06 & 深度段差の閾値 [m]\\
+\code{depth_alpha1} & 1.2 & 深度の一次残差係数\\
+\code{depth_alpha0} & 4.0 & 深度の二階係数\\
+\code{flow_alpha1} & 2.0 & 変位の一次残差係数\\
+\code{flow_alpha0} & 6.0 & 変位の二階係数\\
+\code{image_weight} & 1.0 & 画像照合の係数\\
+\code{flow_weight} & 0.025 & 初期フロー整合の係数\\
+\code{flow_truncation} & 9.0 & 初期フロー損失の切断値\\
+\code{photo_reject} & 3.0 & 画像照合の採用上限\\
+\code{huber_k} & 3.0 & 深度Huberの折れ点\\
+\code{ridge} & 1e-06 & 補助場の二次項係数\\
+\code{iterations} & 400 & 最初の内側反復数\\
+\code{outer_iterations} & 3 & 外側の反復数\\
+\code{candidate_count} & 24 & 保持候補数\\
+\code{max_search} & 18 & 探索半径の計算上限 [画素]\\
+\code{patch_radius} & 2 & 画像窓の半径 [画素]\\
+\code{edge_aware} & True & 正則化の境界停止\\
+\code{use_tgv} & True & 二階正則化（偽なら一次TV）\\
+\code{enforce_bound} & True & 候補・変位の物理制約\\
+\code{centered_photo} & True & 平均輝度差の除去\\
+\code{reciprocal_check} & True & 往復照合\\
+\code{diverse_candidates} & True & 候補間隔による多様化\\
+\code{fast_match} & True & 階層的な有限探索\\
+\code{affine_photo} & False & 輝度利得の代入型補正\\
+\code{rigid_prior} & True & 観測由来の剛体補助項\\
+\code{fused_solver} & True & 双対計算の融合\\
+\code{warm_start} & True & 双対初期値の再利用\\
+\code{keep_identity} & True & 恒等候補の保持\\
+\code{later_iterations} & 150 & 2回目以降の内側反復数\\
+\code{coarse_stride} & 2 & 整数探索の間隔\\
+\code{seed_count} & 3 & 小数画素探索の種の数\\
+\code{rigid_min_points} & 24 & 剛体推定の最小対応数\\
+\code{rigid_sigma} & 0.0015 & 剛体補助項の尺度 [m]\\
+\code{rigid_huber} & 0.006 & 剛体IRLSの折れ点 [m]\\
+\code{step_balance} & 1.0 & 主双対ステップの相反倍率\\
+\code{geometry_huber} & True & ベクトル幾何Huber\\
+\code{geometry_k} & 3.0 & 幾何Huberの折れ点\\
+\end{longtable}
+\endgroup

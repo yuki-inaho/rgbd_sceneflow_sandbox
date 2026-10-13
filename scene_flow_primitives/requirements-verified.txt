@@ -1,0 +1,11 @@
+# Versions observed; not a dependency-resolution lock file.
+numpy==2.3.5
+scipy==1.17.0
+matplotlib==3.10.8
+pillow==12.3.0
+opencv-python-headless==4.13.0.92
+opencv-python==4.13.0.92
+pytest==9.0.2
+setuptools==82.0.1
+wheel==0.46.1
+uv==0.10.0

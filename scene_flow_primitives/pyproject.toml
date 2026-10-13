@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scene-flow-refinement"
+version = "0.3.0"
+description = "Bounded RGB-D scene-flow refinement with a C++ primal-dual solver"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = ["numpy>=2.0,<3", "scipy>=1.14,<2", "matplotlib>=3.9,<4", "pillow>=10,<13", "opencv-python-headless>=4.10,<5"]
+
+[dependency-groups]
+dev = ["pytest>=8,<10"]
+
+[project.scripts]
+sf-primitives = "scene_flow_refinement.primitive_experiment:main"
+sf-demo = "scene_flow_refinement.experiment:main"
+sf-refine = "scene_flow_refinement.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
