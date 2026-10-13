@@ -1,4 +1,4 @@
-# rgbd_sceneflow — RGB-D シーンフロー補正の再現・検証ラボ
+# rgbd_sceneflow_sandbox — RGB-D シーンフロー補正の再現・検証ラボ
 
 配布された一式（保存結果・理論書・実装）を展開し、環境を組み直して
 「どこまで実行再現できるか」を検査するラボです。入力は `~/Downloads/` の zip と
