@@ -1,8 +1,7 @@
 # rgbd_sceneflow_sandbox — RGB-D シーンフロー補正の再現・検証ラボ
 
 配布された一式（保存結果・理論書・実装）を展開し、環境を組み直して
-「どこまで実行再現できるか」を検査するラボです。入力は `~/Downloads/` の zip と
-検討ログ Markdown で、`just extract` が展開します。
+「どこまで実行再現できるか」を検査するラボです。
 
 ```
 data/                  配布された保存結果（Git 追跡外、`just extract` で復元）
